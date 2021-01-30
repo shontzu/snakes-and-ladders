@@ -1,8 +1,8 @@
 class Tile {
 	constructor(x, y) {
 		this.x = x;
-		this.y = y;
-		let colors = ["#faeedb", "#f8e6c9", "#F6DEB7"];
+    this.y = y;
+    let colors = ["#faeedb", "#f8e6c9", "#F6DEB7"];
 		this.color = colors[Math.floor(Math.random() * colors.length)];
 	}
 
@@ -53,15 +53,15 @@ let player = new Player(0, 0);
 let player2 = new Player(4, 0);
 let ladders = [
 	new Ladder(1, 0, 4, 3),
-	new Ladder(6, 4, 9, 9),
-	new Ladder(5, 0, 4, 6),
-	new Ladder(7, 2, 4, 9),
+	new Ladder(5, 1, 4, 7),
+	new Ladder(6, 3, 9, 8),
+	new Ladder(7, 2, 3, 9),
 ];
 
 let snakes = [
-	new Snake(2, 9, 1, 3),
+	new Snake(1, 9, 1, 3),
 	new Snake(6, 6, 7, 4),
-	new Snake(6, 8, 2, 5),
+	new Snake(6, 8, 3, 5),
 	new Snake(7, 9, 8, 7),
 ]
 
@@ -86,7 +86,7 @@ function initializeBoard() {
 	return board;
 }
 
-function initializeLadders() { }
+function initializeLadders() {}
 
 function renderBoard() {
 	let output = document.getElementById("board");
@@ -161,9 +161,9 @@ function renderBoard() {
 			let coords = document.createElement("p");
 			coords.innerText = `${board[y][x].x}${board[y][x].y}`;
 			coords.classList.add("coords");
-			tile.appendChild(coords);
-
-			tile.style.backgroundColor = board[y][x].color;
+      tile.appendChild(coords);
+      
+      tile.style.backgroundColor = board[y][x].color;
 
 			output.append(tile);
 		}
@@ -221,10 +221,10 @@ function checkLadder() {
 }
 
 function checksnakes() {
-	snakes.forEach(ladder => {
-		if (ladder.startX == player.x && ladder.startY == player.y) {
-			player.x = ladder.endX;
-			player.y = ladder.endY;
+	snakes.forEach(Snake => {
+		if (Snake.startX == player.x && Snake.startY == player.y) {
+			player.x = Snake.endX;
+			player.y = Snake.endY;
 			renderBoard();
 		}
 	});
