@@ -37,11 +37,6 @@
 }
 
 .ladder-start {
-  /* background-color: chocolate; */
-
-}
-
-.ladder-start {
   background-color: transparent;
   border: 10px ridge brown;
   position: absolute;
@@ -54,10 +49,16 @@
   /* border-radius: 20%; */
 }
 
-.ladder-end {
-  /* background-color: chocolate; */
-
+.Snake-start {
+  background-color: transparent;
+  border: 10px ridge green;
+  position: absolute;
+  height: 5px;
+  transform-origin: top left;
+  z-index: 50;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
+
 
 .coords {
   position: absolute;
@@ -72,11 +73,14 @@
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
-  border: solid 2px rgb(34, 34, 34);
+  box-shadow: 2px 2px px gray;
+  border:none;
+  /* border: solid 2px rgb(34, 34, 34); */
 }
 
 .button:disabled {
   background-color: lightgray;
+  box-shadow: inset 2px 2px 5px gray;
 }
 
 #dice-results {

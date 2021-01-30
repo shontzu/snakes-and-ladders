@@ -1,8 +1,8 @@
 class Tile {
 	constructor(x, y) {
 		this.x = x;
-    this.y = y;
-    let colors = ["#faeedb", "#f8e6c9", "#F6DEB7"];
+		this.y = y;
+		let colors = ["#faeedb", "#f8e6c9", "#F6DEB7"];
 		this.color = colors[Math.floor(Math.random() * colors.length)];
 	}
 
@@ -30,6 +30,21 @@ class Ladder {
 	}
 }
 
+class Snake {
+	constructor(startX, startY, endX, endY) {
+		this.startX = startX;
+		this.startY = startY;
+		this.endX = endX;
+		this.endY = endY;
+	}
+	getAngle() {
+		return Math.atan((this.endY - this.startY) / (this.endX - this.startX));
+	}
+	getLength() {
+		return Math.sqrt(Math.pow(this.endY - this.startY, 2) + Math.pow(this.endX - this.startX, 2));
+	}
+}
+
 const height = 10;
 const width = 10;
 
@@ -39,10 +54,16 @@ let player2 = new Player(4, 0);
 let ladders = [
 	new Ladder(1, 0, 4, 3),
 	new Ladder(6, 4, 9, 9),
-	new Ladder(5, 0, 4, 8),
-	new Ladder(7, 2, 2, 9),
+	new Ladder(5, 0, 4, 6),
+	new Ladder(7, 2, 4, 9),
 ];
-// let snakes = [new Ladder()]
+
+let snakes = [
+	new Snake(2, 9, 1, 3),
+	new Snake(6, 6, 7, 4),
+	new Snake(6, 8, 2, 5),
+	new Snake(7, 9, 8, 7),
+]
 
 renderBoard();
 
@@ -65,7 +86,7 @@ function initializeBoard() {
 	return board;
 }
 
-function initializeLadders() {}
+function initializeLadders() { }
 
 function renderBoard() {
 	let output = document.getElementById("board");
@@ -113,12 +134,36 @@ function renderBoard() {
 				}
 			});
 
+			snakes.forEach(Snake => {
+				if (Snake.startX == x && Snake.startY == y) {
+					// tile.classList.add("ladder-start");
+					let SnakeDiv = document.createElement("div");
+					SnakeDiv.classList.add("Snake-start");
+					tile.appendChild(SnakeDiv);
+
+					// ladder orientation and rotation
+					SnakeDiv.style.width = `${Snake.getLength() * 67}px`;
+					let translation = "translate(-25px,20px)";
+					let angle = (Snake.getAngle() * 180) / Math.PI;
+					if (angle > 0) {
+						angle += 180;
+						translation = "translate(-30px, -10px)";
+					}
+
+					SnakeDiv.style.transform = `rotate(${angle}deg) ${translation}`;
+					// console.log((ladder.getAngle() * 180) / Math.PI);
+				}
+				if (Snake.endX == x && Snake.endY == y) {
+					tile.classList.add("Snake-end");
+				}
+			});
+
 			let coords = document.createElement("p");
 			coords.innerText = `${board[y][x].x}${board[y][x].y}`;
 			coords.classList.add("coords");
-      tile.appendChild(coords);
-      
-      tile.style.backgroundColor = board[y][x].color;
+			tile.appendChild(coords);
+
+			tile.style.backgroundColor = board[y][x].color;
 
 			output.append(tile);
 		}
@@ -140,6 +185,7 @@ async function rollDice() {
 
 	// console.log("finished moving player");
 	checkLadder();
+	checksnakes();
 	return result;
 }
 
@@ -166,6 +212,16 @@ function movePlayer() {
 function checkLadder() {
 	// console.log("chekcing ladder");
 	ladders.forEach(ladder => {
+		if (ladder.startX == player.x && ladder.startY == player.y) {
+			player.x = ladder.endX;
+			player.y = ladder.endY;
+			renderBoard();
+		}
+	});
+}
+
+function checksnakes() {
+	snakes.forEach(ladder => {
 		if (ladder.startX == player.x && ladder.startY == player.y) {
 			player.x = ladder.endX;
 			player.y = ladder.endY;
