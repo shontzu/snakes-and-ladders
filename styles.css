@@ -37,7 +37,7 @@
 }
 
 .ladder-start {
-  background-color: transparent;
+  background-color: rgba(165, 42, 42, 0.2);
   border: 10px ridge brown;
   position: absolute;
   height: 5px;
@@ -50,7 +50,7 @@
 }
 
 .Snake-start {
-  background-color: transparent;
+  background-color: rgba(0, 255, 0, 0.2);
   border: 10px ridge green;
   position: absolute;
   height: 5px;

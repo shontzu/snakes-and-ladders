@@ -51,18 +51,27 @@ const width = 10;
 let board = initializeBoard();
 let player = new Player(0, 0);
 let player2 = new Player(4, 0);
+
+//normally have 8 to 9 ladders, and one less snake to ladders
 let ladders = [
 	new Ladder(1, 0, 4, 3),
-	new Ladder(5, 1, 4, 7),
-	new Ladder(6, 3, 9, 8),
-	new Ladder(7, 2, 3, 9),
+	new Ladder(2, 5, 4, 8),
+	new Ladder(3, 7, 2, 8),
+	new Ladder(3, 4, 4, 5),
+	new Ladder(5, 1, 6, 7),
+	new Ladder(6, 4, 9, 8),
+	new Ladder(7, 1, 9, 3),
+	new Ladder(7, 2, 4, 6),
 ];
 
 let snakes = [
-	new Snake(1, 9, 1, 3),
-	new Snake(6, 6, 7, 4),
-	new Snake(6, 8, 3, 5),
-	new Snake(7, 9, 8, 7),
+	new Snake(0, 7, 0, 3),
+	new Snake(2, 3, 4, 1),
+	new Snake(3, 9, 2, 8),
+	new Snake(6, 6, 9, 0),
+	new Snake(6, 8, 2, 5),
+	new Snake(6, 9, 8, 7),
+	new Snake(8, 5, 9, 4),
 ]
 
 renderBoard();
