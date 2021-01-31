@@ -7,11 +7,27 @@ class Tile {
 	}
 
 }
-
+const cssColorsOriginal=["lightblue","lightgray","pink","red","yellow"];
+let cssColors=cssColorsOriginal;
 class Player {
-	constructor(x, y) {
+	constructor(x, y, id) {
 		this.x = x;
 		this.y = y;
+		this.id=id;
+	}
+	getDomElement(){
+		if(!this.dom){
+			this.dom = document.createElement("div");
+			this.dom.classList.add("player");
+			let idx=randIntv1(cssColors.length);
+			this.dom.style["background"]=cssColors[idx];
+			cssColors.splice(idx,1);
+			this.dom.style["marginLeft"]=`${randIntv1(20)}px`;
+			this.dom.style["marginTop"]=`${randIntv1(20)}px`;
+			let text=document.createTextNode(this.id);
+			this.dom.appendChild(text);
+		}
+		return this.dom;
 	}
 }
 
@@ -49,8 +65,8 @@ const height = 10;
 const width = 10;
 
 let board = initializeBoard();
-let player = new Player(0, 0);
-let player2 = new Player(4, 0);
+let players =[];
+let currentPlayer,playerIterator;
 
 //normally have 8 to 9 ladders, and one less snake to ladders
 let ladders = [
@@ -74,13 +90,51 @@ let snakes = [
 	new Snake(8, 5, 9, 4),
 ]
 
-renderBoard();
+function randIntv1(x){
+	return Math.trunc((Math.random()*100000)%x);
+}
+
+function* cyclicIterator(v){
+	let i=0;
+	let j=v.length;
+	while(true){
+		yield {idx:i,value:v[i]};
+		j=v.length;
+		i=(i+1)%j;
+	}
+}
+
+function startGame(){
+	let selector=document.querySelector("#player-num");
+	if(!selector.checkValidity()){
+		alert("Please select a valid number from 2 to 4");
+		selector.valueAsNumber=2;
+		return;
+	}
+	//with the correct values provided lets setup the internal structures
+	let v=selector.valueAsNumber;
+	for(let i=0;i<v;i++){
+		players.push(new Player(0,0,i+1));
+	}
+	//initialize the iterators
+	playerIterator=cyclicIterator(players);
+	currentPlayer=playerIterator.next().value;
+	//show the game board
+	document.querySelector("#gameboard").hidden=false;
+	document.querySelector("#welcome").hidden=true;
+	document.getElementById("dice-results").innerText=`Player ${currentPlayer.idx+1}'s turn`;
+	document.getElementById("roll-dice").disabled = false;
+	renderBoard();
+}
 
 function restart() {
 	document.getElementById("win").hidden = true;
-	player.x = 0;
-	player.y = 0;
-	renderBoard();
+	document.querySelector("#gameboard").hidden=true;
+	document.querySelector("#welcome").hidden=false;
+	players=[]; //clear the player list
+	cssColors=cssColorsOriginal; //reset the colors
+	currentPlayer=undefined;
+	playerIterator=undefined; //clear the ptrs
 }
 
 function initializeBoard() {
@@ -105,19 +159,11 @@ function renderBoard() {
 			let tile = document.createElement("div");
 			tile.classList.add("tile");
 
-			if (player.x == x && player.y == y) {
-				// tile.classList.add("player");
-				let playerDiv = document.createElement("div");
-				playerDiv.classList.add("player");
-				tile.appendChild(playerDiv);
-			}
-
-			// if (player2.x == x && player2.y == y) {
-			// 	tile.classList.add("player");
-			// 	// tile.innerHTML = "hello";
-			// 	let playerDiv = document.createElement("div");
-			// 	tile.appendChild(playerDiv);
-			// }
+			players.forEach((player) => {
+				if(player.x == x && player.y == y){
+					tile.appendChild(player.getDomElement());
+				}
+			});
 
 			ladders.forEach(ladder => {
 				if (ladder.startX == x && ladder.startY == y) {
@@ -171,7 +217,7 @@ function renderBoard() {
 			coords.innerText = `${board[y][x].x}${board[y][x].y}`;
 			coords.classList.add("coords");
       tile.appendChild(coords);
-      
+
       tile.style.backgroundColor = board[y][x].color;
 
 			output.append(tile);
@@ -180,25 +226,29 @@ function renderBoard() {
 }
 
 async function rollDice() {
-	let result = Math.floor(Math.random() * 6) + 1;
+	let result = randIntv1(6)+1;
 	// result = 1;
 	document.getElementById("dice-results").innerText = `dice: ${result}`;
 	document.getElementById("roll-dice").disabled = true;
 	for (let i = 0; i < result; i++) {
 		await new Promise(resolve => setTimeout(resolve, 200));
-		movePlayer();
+		movePlayer(currentPlayer.value);
 		// setTimeout(movePlayer, 200 * i);
-		checkWin();
+		if(checkWin(currentPlayer))return i+1;
 	}
 	document.getElementById("roll-dice").disabled = false;
-
+	//make it slower
+	await new Promise(resolve => setTimeout(resolve, 200));
 	// console.log("finished moving player");
-	checkLadder();
-	checksnakes();
+	checkLadder(currentPlayer.value);
+	checksnakes(currentPlayer.value);
+	//next player
+	currentPlayer=playerIterator.next().value;
+	document.getElementById("dice-results").innerText=`Player ${currentPlayer.idx+1}'s turn`;
 	return result;
 }
 
-function movePlayer() {
+function movePlayer(player) {
 	if (player.y % 2 == 0) {
 		// at even row
 		if (player.x >= width - 1) {
@@ -218,7 +268,7 @@ function movePlayer() {
 	renderBoard();
 }
 
-function checkLadder() {
+function checkLadder(player) {
 	// console.log("chekcing ladder");
 	ladders.forEach(ladder => {
 		if (ladder.startX == player.x && ladder.startY == player.y) {
@@ -229,7 +279,7 @@ function checkLadder() {
 	});
 }
 
-function checksnakes() {
+function checksnakes(player) {
 	snakes.forEach(Snake => {
 		if (Snake.startX == player.x && Snake.startY == player.y) {
 			player.x = Snake.endX;
@@ -239,18 +289,24 @@ function checksnakes() {
 	});
 }
 
-function checkWin() {
+function checkWin(data) {
+	let player=data.value;
+	let idx=data.idx;
 	if (height % 2 == 0) {
 		// player wins when they are at x = 0
 		if (player.y >= height - 1 && player.x <= 0) {
 			console.log("WIN");
 			document.getElementById("win").hidden = false;
+			document.getElementById("win-text").innerHTML=`Player ${idx+1} wins`;
+			return true;
 		}
 	} else {
 		// player wins at x = width - 1
 		if (player.y >= height - 1 && player.x >= width - 1) {
 			console.log("WIN");
 			document.getElementById("win").hidden = false;
+			document.getElementById("win-text").innerHTML=`Player ${idx+1} wins`;
+			return true;
 		}
 	}
 }
@@ -258,7 +314,7 @@ function checkWin() {
 function openDrawer() {
 	document.getElementById("drawer").style.width = "400px";
   }
-  
+
   function closeDrawer() {
 	document.getElementById("drawer").style.width = "0";
   }

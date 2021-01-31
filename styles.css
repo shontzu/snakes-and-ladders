@@ -10,9 +10,9 @@ body {
 }
 
 header, footer {
-  text-align:center; 
+  text-align:center;
   background-color:rgba(245, 245, 220, 0.5);
-  box-shadow:2px 2px 2px gray; 
+  box-shadow:2px 2px 2px gray;
 }
 
 #drawer {
@@ -77,6 +77,9 @@ header, footer {
   background-color: lightblue;
   z-index: 100;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  text-align:center;
+  font-weight: bolder;
+  font-size: 15px;
 }
 
 .ladder-start {
@@ -123,7 +126,7 @@ header, footer {
   box-shadow: inset 2px 2px 5px gray;
 }
 
-#dice-results {  
+#dice-results {
   font-weight: bold;
   font-size: 1.2rem;
 }
