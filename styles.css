@@ -9,11 +9,42 @@ body {
   color: rgb(34, 34, 34);
 }
 
-.header {
+header, footer {
   text-align:center; 
   background-color:rgba(245, 245, 220, 0.5);
   box-shadow:2px 2px 2px gray; 
 }
+
+#drawer {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: rgba(245, 245, 220, 0.8);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.drawerBtn{
+  position: absolute;
+  top:0;
+  left:0;
+  height:60px;
+  width:60px;
+  border: 5px ridge silver;
+  border-radius: 30%;
+  background-color: #f5f5dc;
+  font-size: 30px;
+}
+
+/* disable scrollbar */
+::-webkit-scrollbar {
+  display:none;
+}
+
 #board {
   display: grid;
   grid-template-columns: repeat(10, 70px);
