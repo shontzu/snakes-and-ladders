@@ -6,30 +6,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Snakes and ladders</title>
   <link rel="stylesheet" href="./styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
   <div class="game">
-    <h1 class="m-0" style="margin: 15px 0">Snakes and Ladders</h1>
 
-    <div class="controls" style="margin-bottom: 20px;">
-      <button id="roll-dice" class="button" onclick="rollDice()">Roll dice</button>
-      <p id="dice-results" class="inline m-0 m-lr"></p>
+    <div class="header">
+      <h1 class="m-0" style="margin: 15px 0">Snakes and Ladders</h1>
+      <h2><span style="color:goldenrod">Gold - Ladders</span> | <span style="color:darksalmon">Rose - Snakes</span></h2>
+    </div> <!-- end header div -->
 
-      <div id="win" hidden style="float: right">
+      <div class="controls" style="margin-bottom: 20px;">
+        <button id="roll-dice" class="button" onclick="rollDice()">Roll dice</button>
+        <p id="dice-results" class="inline m-0 m-lr"></p>
 
-        <h3 class="inline m-0 m-lr">You win!</h3>
-        <button class="button" onclick="restart()">Restart</button>
-      </div>
-    </div>
+        <div id="win" hidden style="float: right">
+          <h3 class="inline m-0 m-lr">You win!</h3>
+          <button class="button" onclick="restart()">Restart</button>
+        </div>
+      </div> <!-- end controls div -->
 
- 
     <div id="board">
-  
+
     </div>
   </div>
- 
+
 
 </body>
 <script src="./script.js"></script>
