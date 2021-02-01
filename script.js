@@ -50,7 +50,8 @@ const width = 10;
 
 let board = initializeBoard();
 let player = new Player(0, 0);
-let player2 = new Player(4, 0);
+// let player2 = new Player(0, 0);
+// let players = [new Player(0, 0), new Player(0, 0)];
 
 //normally have 8 to 9 ladders, and one less snake to ladders
 let ladders = [
@@ -193,8 +194,7 @@ async function rollDice() {
 	document.getElementById("roll-dice").disabled = false;
 
 	// console.log("finished moving player");
-	checkLadder();
-	checksnakes();
+	checkSnakesAndLadder();
 	return result;
 }
 
@@ -218,7 +218,7 @@ function movePlayer() {
 	renderBoard();
 }
 
-function checkLadder() {
+function checkSnakesAndLadder() {
 	// console.log("chekcing ladder");
 	ladders.forEach(ladder => {
 		if (ladder.startX == player.x && ladder.startY == player.y) {
@@ -227,9 +227,6 @@ function checkLadder() {
 			renderBoard();
 		}
 	});
-}
-
-function checksnakes() {
 	snakes.forEach(Snake => {
 		if (Snake.startX == player.x && Snake.startY == player.y) {
 			player.x = Snake.endX;
