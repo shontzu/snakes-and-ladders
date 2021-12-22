@@ -1,12 +1,4 @@
-class Tile {
-	constructor(x, y) {
-		this.x = x;
-    this.y = y;
-    let colors = ["#faeedb", "#f8e6c9", "#F6DEB7"];
-		this.color = colors[Math.floor(Math.random() * colors.length)];
-	}
 
-}
 const cssColorsOriginal=["lightblue","lightgray","pink","red","yellow"];
 let cssColors=cssColorsOriginal;
 class Player {
@@ -64,7 +56,6 @@ class Snake {
 const height = 10;
 const width = 10;
 
-let board = initializeBoard();
 let players =[];
 let currentPlayer,playerIterator;
 
@@ -164,62 +155,6 @@ function renderBoard() {
 					tile.appendChild(player.getDomElement());
 				}
 			});
-
-			ladders.forEach(ladder => {
-				if (ladder.startX == x && ladder.startY == y) {
-					// tile.classList.add("ladder-start");
-					let ladderDiv = document.createElement("div");
-					ladderDiv.classList.add("ladder-start");
-					tile.appendChild(ladderDiv);
-
-					// ladder orientation and rotation
-					ladderDiv.style.width = `${ladder.getLength() * 67}px`;
-					let translation = "translate(35px, -10px)";
-					let angle = (ladder.getAngle() * 180) / Math.PI;
-					if (angle < 0) {
-						angle += 180;
-						translation = "translate(15px, -40px)";
-					}
-
-					ladderDiv.style.transform = `rotate(${angle}deg) ${translation}`;
-					// console.log((ladder.getAngle() * 180) / Math.PI);
-				}
-				if (ladder.endX == x && ladder.endY == y) {
-					tile.classList.add("ladder-end");
-				}
-			});
-
-			snakes.forEach(Snake => {
-				if (Snake.startX == x && Snake.startY == y) {
-					// tile.classList.add("ladder-start");
-					let SnakeDiv = document.createElement("div");
-					SnakeDiv.classList.add("Snake-start");
-					tile.appendChild(SnakeDiv);
-
-					// ladder orientation and rotation
-					SnakeDiv.style.width = `${Snake.getLength() * 67}px`;
-					let translation = "translate(-25px,20px)";
-					let angle = (Snake.getAngle() * 180) / Math.PI;
-					if (angle > 0) {
-						angle += 180;
-						translation = "translate(-30px, -10px)";
-					}
-
-					SnakeDiv.style.transform = `rotate(${angle}deg) ${translation}`;
-					// console.log((ladder.getAngle() * 180) / Math.PI);
-				}
-				if (Snake.endX == x && Snake.endY == y) {
-					tile.classList.add("Snake-end");
-				}
-			});
-
-			let coords = document.createElement("p");
-			coords.innerText = `${board[y][x].x}${board[y][x].y}`;
-			coords.classList.add("coords");
-      tile.appendChild(coords);
-
-      tile.style.backgroundColor = board[y][x].color;
-
 			output.append(tile);
 		}
 	}
