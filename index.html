@@ -14,35 +14,30 @@
   <div id="welcome" class="game">
     <header>
       <h1>Welcome to the Snakes and Ladders</h1>
+      <p>To begin: select number of players and click start</p>
+      <input id="player-num" type="number" min="2" max="4" value="2" />
+      <button onclick="startGame()">Start</button>
     </header>
-    <p>To begin: select number of players and click start</p>
-    <input id="player-num" type="number" min="2" max="4" value="2" />
-    <button onclick="startGame()">Start</button>
   </div>
   <div id="gameboard" class="game" hidden>
 
     <header>
-      <h1 class="m-0" style="margin: 15px 0">Snakes and Ladders</h1>
-      <h2><span style="color:goldenrod">Gold - Ladders</span> | <span style="color:darksalmon">Rose - Snakes</span></h2>
+      <h1 class="m-0">Snakes and Ladders</h1>
+      
+      <div class="controls">
+        <button id="roll-dice" class="button" onclick="rollDice()">Roll dice</button>
+        <p id="dice-results" class="inline m-0 m-lr"></p>
+        
+        <div id="win" hidden style="float: right">
+          <h3 id="win-text" class="inline m-0 m-lr">You win!</h3>
+          <button class="button" onclick="restart()">Restart</button>
+        </div>
+      </div> <!-- end controls div -->
     </header>
-
-    <div class="controls" style="margin-bottom: 20px;">
-      <button id="roll-dice" class="button" onclick="rollDice()">Roll dice</button>
-      <p id="dice-results" class="inline m-0 m-lr"></p>
-
-      <div id="win" hidden style="float: right">
-        <h3 id="win-text" class="inline m-0 m-lr">You win!</h3>
-        <button class="button" onclick="restart()">Restart</button>
-      </div>
-    </div> <!-- end controls div -->
 
     <div id="board">
 
     </div>
-
-    <footer>
-      <p>This project was developed as part of a group activity with &copy;THC</p>
-    </footer>
   </div> <!-- end game container -->
 
 
