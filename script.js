@@ -1,12 +1,4 @@
-class Tile {
-	constructor(x, y) {
-		this.x = x;
-    this.y = y;
-    let colors = ["#faeedb", "#f8e6c9", "#F6DEB7"];
-		this.color = colors[Math.floor(Math.random() * colors.length)];
-	}
 
-}
 const cssColorsOriginal=["lightblue","lightgray","pink","red","yellow"];
 let cssColors=cssColorsOriginal;
 class Player {

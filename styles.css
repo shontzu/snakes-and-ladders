@@ -50,6 +50,7 @@ header, footer {
   grid-template-columns: repeat(10, 70px);
   grid-template-rows: repeat(10, 70px);
   border: 15px ridge silver;
+  background-image: url(img/SnakeLadder.png);
   /* column-gap: 10px; */
   /* row-gap: 10px; */
 }
