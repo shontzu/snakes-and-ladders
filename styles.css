@@ -57,15 +57,13 @@ header, footer {
 
 .tile {
   position: relative;
-  margin: 0;
+  margin: 3px;
   padding: 5px 5px;
   font-size: x-small;
   font-weight: bold;
   box-sizing: border-box;
   width: 70px;
   height: 70px;
-  border: 3px ridge silver;
-  background-color: #f5f5dc;
 }
 
 .player {
